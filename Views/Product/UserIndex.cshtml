@@ -1,0 +1,48 @@
+﻿@*@model IEnumerable<EcomerceProject.Entities.Product>*@
+@model PaginatedList<EcomerceProject.Entities.Product>
+@{
+    ViewData["Title"] = "UserIndex";
+}
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="card col-md-3 ml-4 mb-3" style="width: 18rem;">
+                <img src="~/@Url.Content(item.image)" class="card-img-top" />
+                <div class="card-body">
+                    <h5 class="card-title">@item.name</h5>
+                    <p class="card-text">@item.finalprice.ToString("#,###") VND</p>
+                    <a class="btn btn-primary" asp-action="AddShoppingCart" asp-controller="ShoppingCart" asp-route-id="@item.id">Add to shoppingcart</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a 
+   id="prev"
+   asp-action="UserIndex"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a 
+   id="next"
+   asp-action="UserIndex"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+
+

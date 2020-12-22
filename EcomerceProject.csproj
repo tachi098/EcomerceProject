@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Admin\**" />
+    <Content Remove="Views\Admin\**" />
+    <EmbeddedResource Remove="Views\Admin\**" />
+    <None Remove="Views\Admin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20201218000156_initial.cs" />
+    <Compile Remove="Migrations\20201218000156_initial.Designer.cs" />
+    <Compile Remove="Migrations\20201218003705_initial.cs" />
+    <Compile Remove="Migrations\20201218003705_initial.Designer.cs" />
+    <Compile Remove="Migrations\20201218034602_initial.cs" />
+    <Compile Remove="Migrations\20201218034602_initial.Designer.cs" />
+    <Compile Remove="Migrations\20201218081640_initial.cs" />
+    <Compile Remove="Migrations\20201218081640_initial.Designer.cs" />
+    <Compile Remove="Migrations\20201218082137_initial.cs" />
+    <Compile Remove="Migrations\20201218082137_initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.12.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Cart\" />
+  </ItemGroup>
+
+</Project>

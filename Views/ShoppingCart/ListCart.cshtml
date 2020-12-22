@@ -1,0 +1,73 @@
+﻿@{
+        ViewData["Title"] = "ListCart";
+    }
+
+    <h1>ListCart</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var subtotal = 0;}
+                        @foreach (var item in ViewBag.carts)
+                        {
+                            int total = @item.product.finalprice * @item.quantity;
+                                <tr>
+                                    <td class="col-sm-6 col-md-4">
+                                        <div class="media">
+                                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="~/@Url.Content(item.product.image)" style="width: 72px; height: 72px;"> </a>
+                                            <div class="media-body">
+                                                <h4 class="media-heading"><a href="#">@item.product.name</a></h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col-sm-1 col-md-1" style="text-align: center">
+                                        <div style="display:inline-flex">
+                                            <a asp-action="UpdateCartDown" asp-route-id="@item.product.id" asp-controller="Cart">-</a>
+                                            <p>@item.quantity</p>
+                                            <a asp-action="UpdateCartUp" asp-route-id="@item.product.id" asp-controller="Cart">+</a>
+                                        </div>
+
+                                    </td>
+                                    <td class="col-sm-1 col-md-1 text-center"><strong>@item.product.finalprice.ToString("#,###") VND</strong></td>
+                                    <td class="col-sm-1 col-md-1 text-center"><strong>@total.ToString("#,###") VND</strong></td>
+                                    <td class="col-sm-1 col-md-1">
+                                        <a class="btn btn-danger" asp-action="DeleteCart" asp-controller="ShoppingCart" asp-route-id="@item.product.id">Remove</a>
+                                    </td>
+                                </tr>
+                                subtotal += total;
+                        }
+
+                        <tr>
+                            <td>   </td>
+                            <td>   </td>
+                            <td>   </td>
+                            <td><h5>Subtotal</h5></td>
+                            <td class="text-center"><h5><strong>@subtotal.ToString("#,###") VND</strong></h5></td>
+                        </tr>
+                        <tr>
+                            <td>   </td>
+                            <td>   </td>
+                            <td>   </td>
+                            <td>   </td>
+                            <td>
+                                <button type="button" class="btn btn-success">
+                                    Checkout <span class="glyphicon glyphicon-play"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

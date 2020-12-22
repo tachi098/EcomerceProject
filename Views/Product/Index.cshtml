@@ -1,0 +1,45 @@
+﻿@model IEnumerable<EcomerceProject.Entities.Product> 
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Product</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>FinalPrice</th>
+                    <th>Status</th>
+                    <th>Function</th>
+                </tr>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@item.id</td>
+                        <td>@item.name</td>
+                        <td>@item.finalprice</td>
+                        <td >
+                            @if (item.status == 0)
+                            {
+                                <a class="btn btn-danger">Inactive</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-success">Active</a>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Update" asp-controller="Product" asp-route-id="@item.id">Update</a>
+                            <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.id">Detail</a>
+                            <a asp-action="Delete" asp-controller="Product" asp-route-id="@item.id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
