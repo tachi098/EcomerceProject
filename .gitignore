@@ -4,10 +4,10 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 #Customize
-   obj/
-   bin/
-   Migrations/
-   appsettings.json
+obj/
+bin/
+Migrations/
+appsettings.json
 
 # User-specific files
 *.rsuser
