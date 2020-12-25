@@ -11,6 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using EcomerceProject.Repositories;
 using EcomerceProject.Services.Interfaces;
 using EcomerceProject.Services.Implements;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using EcomerceProject.Helpers.PDF;
+using System.IO;
 
 namespace EcomerceProject
 {
@@ -30,6 +34,11 @@ namespace EcomerceProject
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApplicationContext")));
             services.AddScoped<IProductServices, ProductServiceImpls>();
             services.AddSession();
+
+            // Create pdf dotnetcore
+            var context = new CustomAssemblyLoadContext();
+            context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
