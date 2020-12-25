@@ -1,5 +1,8 @@
 ﻿@*@model IEnumerable<EcomerceProject.Entities.Product>*@
 @model PaginatedList<EcomerceProject.Entities.Product>
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, EcomerceProject
+@using EcomerceProject.Helpers;
 @{
     ViewData["Title"] = "UserIndex";
 }
@@ -11,6 +14,9 @@
             <div class="card col-md-3 ml-4 mb-3" style="width: 18rem;">
                 <img src="~/@Url.Content(item.image)" class="card-img-top" />
                 <div class="card-body">
+                    <img src="@Helper.Barcode.Set(item.id.ToString().PadLeft(5, '0'))" />
+                    <barcode content="@item.id.ToString()" width="200" height="100" />
+                    <qrcode content="@item.id.ToString()" width="100" height="100" />
                     <h5 class="card-title">@item.name</h5>
                     <p class="card-text">@item.finalprice.ToString("#,###") VND</p>
                     <a class="btn btn-primary" asp-action="AddShoppingCart" asp-controller="ShoppingCart" asp-route-id="@item.id">Add to shoppingcart</a>
@@ -26,8 +32,7 @@
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<a 
-   id="prev"
+<a id="prev"
    asp-action="UserIndex"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-page="@(Model.PageIndex - 1)"
@@ -35,8 +40,7 @@
    class="btn btn-default @prevDisabled">
     Previous
 </a>
-<a 
-   id="next"
+<a id="next"
    asp-action="UserIndex"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-page="@(Model.PageIndex + 1)"
