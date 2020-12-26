@@ -14,7 +14,6 @@
             <div class="card col-md-3 ml-4 mb-3" style="width: 18rem;">
                 <img src="~/@Url.Content(item.image)" class="card-img-top" />
                 <div class="card-body">
-                    <img src="@Helper.Barcode.Set(item.id.ToString().PadLeft(5, '0'))" />
                     <barcode content="@item.id.ToString()" width="200" height="100" />
                     <qrcode content="@item.id.ToString()" width="100" height="100" />
                     <h5 class="card-title">@item.name</h5>

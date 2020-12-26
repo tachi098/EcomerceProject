@@ -2,6 +2,7 @@
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml.Wordprocessing;
 using EcomerceProject.Entities;
+using EcomerceProject.Helpers;
 using EcomerceProject.Repositories;
 using EcomerceProject.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,11 @@ namespace EcomerceProject.Controllers.Admin
         private ApplicationContext context;
         private IConverter _converter;
 
-        public ProductController(IProductServices services, ApplicationContext context, IConverter converter)
+        public ProductController(IProductServices services, ApplicationContext context, IConverter _converter)
         {
             this.services = services;
             this.context = context;
-            _converter = converter;
+            this._converter = _converter;
         }
         public IActionResult Index()
         {
@@ -54,34 +55,8 @@ namespace EcomerceProject.Controllers.Admin
 
         public IActionResult CreatePDF()
         {
-            var globalSettings = new GlobalSettings
-            {
-                ColorMode = ColorMode.Color,
-                Orientation = Orientation.Portrait,
-                PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "PDF Report",
-                //Out = @"D:\PDFCreator\Report.pdf"
-            };
-
-            var objectSettings = new ObjectSettings
-            {
-                PagesCount = true,
-                //HtmlContent = "<h1>Hello PDF</h1>",
-                //Page = "http://localhost:52743/",
-                Page = "http://localhost:52743/User/Login",
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
-                HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
-                FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
-            };
-            var pdf = new HtmlToPdfDocument()
-            {
-                GlobalSettings = globalSettings,
-                Objects = { objectSettings }
-            };
-            _converter.Convert(pdf);
-
-            var file = _converter.Convert(pdf);
+            var page = "http://localhost:52743/User/Login";
+            var file = Helper.PDF.Create(_converter, page);
             return File(file, "application/pdf", "Report.pdf");
         }
 
