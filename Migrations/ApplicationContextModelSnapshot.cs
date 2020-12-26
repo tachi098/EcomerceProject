@@ -170,50 +170,50 @@ namespace EcomerceProject.Migrations
                         new
                         {
                             id = 1,
-                            create_at = new DateTime(2020, 12, 23, 20, 53, 30, 154, DateTimeKind.Local).AddTicks(2007),
+                            create_at = new DateTime(2020, 12, 25, 18, 48, 44, 841, DateTimeKind.Local).AddTicks(2173),
                             finalprice = 4600,
                             image = "image/p1.jpg",
                             name = "Nokia",
                             price = 5000,
                             saleprice = 400,
                             status = 1,
-                            update_at = new DateTime(2020, 12, 23, 20, 53, 30, 154, DateTimeKind.Local).AddTicks(4011)
+                            update_at = new DateTime(2020, 12, 25, 18, 48, 44, 841, DateTimeKind.Local).AddTicks(3088)
                         },
                         new
                         {
                             id = 2,
-                            create_at = new DateTime(2020, 12, 23, 20, 53, 30, 154, DateTimeKind.Local).AddTicks(6210),
+                            create_at = new DateTime(2020, 12, 25, 18, 48, 44, 841, DateTimeKind.Local).AddTicks(3843),
                             finalprice = 4600,
                             image = "image/p2.jpg",
                             name = "Samsung Galaxy",
                             price = 5000,
                             saleprice = 400,
                             status = 1,
-                            update_at = new DateTime(2020, 12, 23, 20, 53, 30, 154, DateTimeKind.Local).AddTicks(6263)
+                            update_at = new DateTime(2020, 12, 25, 18, 48, 44, 841, DateTimeKind.Local).AddTicks(3853)
                         },
                         new
                         {
                             id = 3,
-                            create_at = new DateTime(2020, 12, 23, 20, 53, 30, 154, DateTimeKind.Local).AddTicks(6305),
+                            create_at = new DateTime(2020, 12, 25, 18, 48, 44, 841, DateTimeKind.Local).AddTicks(3864),
                             finalprice = 4600,
                             image = "image/p3.jpg",
                             name = "Samsung Note",
                             price = 5000,
                             saleprice = 400,
                             status = 1,
-                            update_at = new DateTime(2020, 12, 23, 20, 53, 30, 154, DateTimeKind.Local).AddTicks(6310)
+                            update_at = new DateTime(2020, 12, 25, 18, 48, 44, 841, DateTimeKind.Local).AddTicks(3865)
                         },
                         new
                         {
                             id = 4,
-                            create_at = new DateTime(2020, 12, 23, 20, 53, 30, 154, DateTimeKind.Local).AddTicks(6320),
+                            create_at = new DateTime(2020, 12, 25, 18, 48, 44, 841, DateTimeKind.Local).AddTicks(3867),
                             finalprice = 4600,
                             image = "image/p4.jpg",
                             name = "Iphone",
                             price = 5000,
                             saleprice = 400,
                             status = 1,
-                            update_at = new DateTime(2020, 12, 23, 20, 53, 30, 154, DateTimeKind.Local).AddTicks(6325)
+                            update_at = new DateTime(2020, 12, 25, 18, 48, 44, 841, DateTimeKind.Local).AddTicks(3868)
                         });
                 });
 
@@ -287,42 +287,42 @@ namespace EcomerceProject.Migrations
                             id = 1,
                             address = "binh thanh",
                             avatar = "image/p1.png",
-                            create_at = new DateTime(2020, 12, 23, 20, 53, 30, 141, DateTimeKind.Local).AddTicks(6541),
+                            create_at = new DateTime(2020, 12, 25, 18, 48, 44, 836, DateTimeKind.Local).AddTicks(3470),
                             email = "toilahuy098@gmail.com",
                             level = true,
                             name = "huy",
                             password = "123456",
                             phone = "0933691822",
                             status = true,
-                            update_at = new DateTime(2020, 12, 23, 20, 53, 30, 143, DateTimeKind.Local).AddTicks(1464)
+                            update_at = new DateTime(2020, 12, 25, 18, 48, 44, 837, DateTimeKind.Local).AddTicks(9217)
                         },
                         new
                         {
                             id = 2,
                             address = "quan 3",
                             avatar = "image/p2.png",
-                            create_at = new DateTime(2020, 12, 23, 20, 53, 30, 143, DateTimeKind.Local).AddTicks(4128),
+                            create_at = new DateTime(2020, 12, 25, 18, 48, 44, 837, DateTimeKind.Local).AddTicks(9971),
                             email = "hoaixp@gmail.com",
                             level = false,
                             name = "hoai",
                             password = "123456",
                             phone = "0933691822",
                             status = true,
-                            update_at = new DateTime(2020, 12, 23, 20, 53, 30, 143, DateTimeKind.Local).AddTicks(4182)
+                            update_at = new DateTime(2020, 12, 25, 18, 48, 44, 837, DateTimeKind.Local).AddTicks(9982)
                         },
                         new
                         {
                             id = 3,
                             address = "quan 3",
                             avatar = "image/p2.png",
-                            create_at = new DateTime(2020, 12, 23, 20, 53, 30, 143, DateTimeKind.Local).AddTicks(4222),
+                            create_at = new DateTime(2020, 12, 25, 18, 48, 44, 837, DateTimeKind.Local).AddTicks(9991),
                             email = "lanttm@gmail.com",
                             level = false,
                             name = "lan",
                             password = "123456",
                             phone = "0933691822",
                             status = true,
-                            update_at = new DateTime(2020, 12, 23, 20, 53, 30, 143, DateTimeKind.Local).AddTicks(4228)
+                            update_at = new DateTime(2020, 12, 25, 18, 48, 44, 837, DateTimeKind.Local).AddTicks(9992)
                         });
                 });
 
