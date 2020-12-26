@@ -172,5 +172,99 @@ namespace EcomerceProject.Controllers
             }
             return RedirectToAction("UserIndex", controllerName: "Product");
         }
+
+        public IActionResult UpdateCartUp(int id)
+        {
+            var cart = HttpContext.Session.GetString("cart");
+            var u = HttpContext.Session.GetString("user");
+            if (cart != null && u == null)
+            {
+                var dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
+                for (int i = 0; i < dataCart.Count; i++)
+                {
+                    if (dataCart[i].product.id == id)
+                    {
+                        dataCart[i].quantity += 1;
+                    }
+                }
+                ViewBag.carts = dataCart;
+                HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
+                return View("ListCart");
+            }
+            else if (u != null)
+            {
+                var user = JsonConvert.DeserializeObject<User>(u);
+                var scart = context.ShoppingCart.SingleOrDefault(s => s.userid.Equals(user.id));
+                if (scart != null)
+                {
+                    var dataCart = JsonConvert.DeserializeObject<List<Cart>>(scart.content);
+                    for (int i = 0; i < dataCart.Count; i++)
+                    {
+                        if (dataCart[i].product.id == id)
+                        {
+                            dataCart[i].quantity += 1;
+                            var newCart = JsonConvert.SerializeObject(dataCart);
+                            scart.content = newCart;
+                            context.SaveChanges();
+                            HttpContext.Session.SetString("cart", newCart);
+                            return RedirectToAction("ListCart", controllerName: "ShoppingCart");
+                        }
+                    }
+                }
+            }
+            return RedirectToAction("UserIndex", controllerName: "Product");
+        }
+
+        public IActionResult UpdateCartDown(int id)
+        {
+            var cart = HttpContext.Session.GetString("cart");
+            var u = HttpContext.Session.GetString("user");
+            if (cart != null && u == null)
+            {
+                var dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
+                for (int i = 0; i < dataCart.Count; i++)
+                {
+                    if (dataCart[i].product.id == id)
+                    {
+                        if (dataCart[i].quantity > 1)
+                        {
+                            dataCart[i].quantity -= 1;
+                        }
+                    }
+                }
+                ViewBag.carts = dataCart;
+                HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
+                return View("ListCart");
+            }
+            else if (u != null)
+            {
+                var user = JsonConvert.DeserializeObject<User>(u);
+                var scart = context.ShoppingCart.SingleOrDefault(s => s.userid.Equals(user.id));
+                if (scart != null)
+                {
+                    var dataCart = JsonConvert.DeserializeObject<List<Cart>>(scart.content);
+                    for (int i = 0; i < dataCart.Count; i++)
+                    {
+                        if (dataCart[i].product.id == id)
+                        {
+                            if (dataCart[i].quantity > 1)
+                            {
+                                dataCart[i].quantity -= 1;
+                                var newCart = JsonConvert.SerializeObject(dataCart);
+                                scart.content = newCart;
+                                context.SaveChanges();
+                                HttpContext.Session.SetString("cart", newCart);
+                                return RedirectToAction("ListCart", controllerName: "ShoppingCart");
+                            }
+                            else
+                            {
+                                return RedirectToAction("ListCart", controllerName: "ShoppingCart");
+                            }
+                        }
+                    }
+                }
+            }
+            return RedirectToAction("UserIndex", controllerName: "Product");
+        }
     }
 }
