@@ -3,46 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
-using System.Drawing;
-using System.Drawing.Imaging;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace EcomerceProject.Helpers
 {
     public class Helper
     {
-        public static class Barcode
+        public static class PDF
         {
-            public static dynamic Set(string barcode)
+            public static byte[] Create(IConverter _converter, string page)
             {
-                using (MemoryStream ms = new MemoryStream())
+                var globalSettings = new GlobalSettings
                 {
-                    //The Image is drawn based on length of Barcode text.
-                    using (Bitmap bitMap = new Bitmap(barcode.Length * 40, 80))
-                    {
-                        //The Graphics library object is generated for the Image.
-                        using (Graphics graphics = Graphics.FromImage(bitMap))
-                        {
-                            //The installed Barcode font.
-                            Font oFont = new Font("IDAutomationHC39M Free Version", 16);
-                            PointF point = new PointF(2f, 2f);
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                    Margins = new MarginSettings { Top = 10 },
+                    DocumentTitle = "PDF Report",
+                };
 
-                            //White Brush is used to fill the Image with white color.
-                            SolidBrush whiteBrush = new SolidBrush(Color.White);
-                            graphics.FillRectangle(whiteBrush, 0, 0, bitMap.Width, bitMap.Height);
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                    Page = page,
+                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
+                    HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
+                    FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
+                };
+                var pdf = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = globalSettings,
+                    Objects = { objectSettings }
+                };
+                _converter.Convert(pdf);
 
-                            //Black Brush is used to draw the Barcode over the Image.
-                            SolidBrush blackBrush = new SolidBrush(Color.Black);
-                            //graphics.DrawString("*" + barcode + "*", oFont, blackBrush, point);
-                            graphics.DrawString(barcode, oFont, blackBrush, point);
-                        }
-
-                        //The Bitmap is saved to Memory Stream.
-                        bitMap.Save(ms, ImageFormat.Png);
-
-                        //The Image is finally converted to Base64 string.
-                        return "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                    }
-                }
+                return _converter.Convert(pdf);
             }
         }
     }
