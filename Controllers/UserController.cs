@@ -40,17 +40,24 @@ namespace EcomerceProject.Controllers
                         var dataSCart = JsonConvert.DeserializeObject<List<Cart>>(shoppingCart.content);
                         for (int i = 0; i < dataCart.Count; i++)
                         {
+                            int count = 0;
                             for (int j = 0; j < dataSCart.Count; j++)
                             {
+
                                 if (dataCart[i].product.id.Equals(dataSCart[j].product.id))
                                 {
                                     dataSCart[j].quantity += dataCart[i].quantity;
-                                    shoppingCart.content = JsonConvert.SerializeObject(dataSCart);
-                                    context.SaveChanges();
-                                    HttpContext.Session.SetString("cart", shoppingCart.content);
+                                    count++;
                                 }
                             }
+                            if (count == 0)
+                            {
+                                dataSCart.Add(dataCart[i]);
+                            }
                         }
+                        shoppingCart.content = JsonConvert.SerializeObject(dataSCart);
+                        context.SaveChanges();
+                        HttpContext.Session.SetString("cart", shoppingCart.content);
                     }
                 }
                 else if (shoppingCart == null)
