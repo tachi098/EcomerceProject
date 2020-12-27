@@ -30,9 +30,41 @@ namespace EcomerceProject.Controllers
             {
                 HttpContext.Session.SetString("user", JsonConvert.SerializeObject(u));
                 var shoppingCart = context.ShoppingCart.SingleOrDefault(s=>s.userid.Equals(u.id));
+                var cart = HttpContext.Session.GetString("cart");
                 if (shoppingCart != null)
                 {
                     HttpContext.Session.SetString("cart", shoppingCart.content);
+                    if (cart != null)
+                    {
+                        var dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
+                        var dataSCart = JsonConvert.DeserializeObject<List<Cart>>(shoppingCart.content);
+                        for (int i = 0; i < dataCart.Count; i++)
+                        {
+                            for (int j = 0; j < dataSCart.Count; j++)
+                            {
+                                if (dataCart[i].product.id.Equals(dataSCart[j].product.id))
+                                {
+                                    dataSCart[j].quantity += dataCart[i].quantity;
+                                    shoppingCart.content = JsonConvert.SerializeObject(dataSCart);
+                                    context.SaveChanges();
+                                    HttpContext.Session.SetString("cart", shoppingCart.content);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (shoppingCart == null)
+                {
+                    if (cart != null)
+                    {
+                        ShoppingCart sCart = new ShoppingCart()
+                        {
+                            userid = u.id,
+                            content = cart
+                        };
+                        context.ShoppingCart.Add(sCart);
+                        context.SaveChanges();
+                    }
                 }
                 return RedirectToAction("UserIndex", controllerName: "Product");
             }

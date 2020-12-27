@@ -145,7 +145,6 @@ namespace EcomerceProject.Controllers
                         {
                             dataCart.RemoveAt(i);
                         }
-
                     }
                     ViewBag.carts = dataCart;
                     HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
