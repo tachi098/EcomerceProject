@@ -156,16 +156,25 @@ namespace EcomerceProject.Controllers
                 var user = JsonConvert.DeserializeObject<User>(u);
                 var dataCart = context.ShoppingCart.SingleOrDefault(s => s.userid.Equals(user.id));
                 var oldCart = JsonConvert.DeserializeObject<List<Cart>>(dataCart.content);
-                for (int i = 0; i < oldCart.Count; i++)
+                if (oldCart.Count == 1)
                 {
-                    if (oldCart[i].product.id == id)
+                    context.ShoppingCart.Remove(dataCart);
+                    context.SaveChanges();
+                    HttpContext.Session.Remove("cart");
+                }
+                else
+                {
+                    for (int i = 0; i < oldCart.Count; i++)
                     {
-                        oldCart.RemoveAt(i);
-                        var newCart = JsonConvert.SerializeObject(oldCart);
-                        dataCart.content = newCart;
-                        context.SaveChanges();
-                        HttpContext.Session.SetString("cart", newCart);
-                        return RedirectToAction("ListCart", controllerName: "ShoppingCart");
+                        if (oldCart[i].product.id == id)
+                        {
+                            oldCart.RemoveAt(i);
+                            var newCart = JsonConvert.SerializeObject(oldCart);
+                            dataCart.content = newCart;
+                            context.SaveChanges();
+                            HttpContext.Session.SetString("cart", newCart);
+                            return RedirectToAction("ListCart", controllerName: "ShoppingCart");
+                        }
                     }
                 }
             }
