@@ -13,7 +13,7 @@ namespace EcomerceProject.Entities
         public int id { get; set; }
         public string name { get; set; }
         public string  image { get; set; }
-        public int price { get; set; }
+        public float price { get; set; }
         public int saleprice { get; set; }
         public int finalprice { get; set; }
         public int status { get; set; }

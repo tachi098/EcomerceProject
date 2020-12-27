@@ -1,0 +1,133 @@
+﻿@{
+    var data = Context.Session.GetString("cart");
+
+    int coutCart = 0;
+    if (data == null)
+    {
+        coutCart = 0;
+    }
+    else
+    {
+        var data2 = Context.Session.GetString("cart");
+        List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(data2);
+        foreach (var item in dataCart)
+        {
+            coutCart += item.quantity;
+        }
+
+    }
+}
+<main>
+    <div class="container wow fadeIn">
+
+        <!-- Heading -->
+        <h2 class="my-5 h2 text-center">Checkout</h2>
+
+        <!--Grid row-->
+        <div class="row">
+
+            <!--Grid column-->
+            <div class="col-md-8 mb-4">
+
+                <div>
+                    <!--Card content-->
+                    <form asp-action="Checkout" asp-controller="ShoppingCart" method="post">
+                        <input type="hidden" value="@ViewBag.User.id" name="id"/>
+                        <!--Grid row-->
+                        <!--Username-->
+                        <div class="md-form  mb-5">
+                            <label for="name" class="">Name</label>
+                            <input type="text" class="form-control" name="name" value="@ViewBag.User.name" required>
+                        </div>
+
+                        <!--phone-->
+                        <div class="md-form mb-5">
+                            <label for="email" class="">Email</label>
+                            <input type="text" id="phone" class="form-control" name="phone" value="@ViewBag.User.phone" required>
+                        </div>
+
+                        <!--email-->
+                        <div class="md-form mb-5">
+                            <label for="email" class="">Email</label>
+                            <input type="text" id="email" class="form-control" name="email" value="@ViewBag.User.email" required>
+                        </div>
+
+                        <!--address-->
+                        <div class="md-form mb-5">
+                            <label for="address" class="">Address</label>
+                            <input type="text" id="address" class="form-control" name="address" value="@ViewBag.User.address" required>
+                        </div>
+                        <hr>
+                        <div class="d-block my-3">
+                            <div class="custom-control custom-radio">
+                                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                <label class="custom-control-label" for="credit">Credit card</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                <label class="custom-control-label" for="debit">Debit card</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                <label class="custom-control-label" for="paypal">Paypal</label>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                    </form>
+                </div>
+                <!--/.Card-->
+
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-4 mb-4">
+
+                <!-- Heading -->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge badge-secondary badge-pill">@coutCart</span>
+                </h4>
+
+                <!-- Cart -->
+                <ul class="list-group mb-3 z-depth-1">
+                    @{ var subtotal = 0;}
+                    @foreach (var item in ViewBag.carts)
+                    {
+                        int total = @item.product.finalprice * @item.quantity;
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0">@item.product.name</h6>
+                                <small class="text-muted">x @item.quantity</small>
+                            </div>
+                            <span class="text-muted">@total.ToString("#,###") VND</span>
+                        </li>
+                        subtotal += total;
+                    }
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (VND)</span>
+                        <strong>@subtotal</strong>
+                    </li>
+                </ul>
+                <!-- Cart -->
+                <!-- Promo code -->
+                <form class="card p-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- Promo code -->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+    </div>
+</main>
+<!--Main layout-->

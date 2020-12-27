@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -117,6 +118,11 @@ namespace EcomerceProject.Controllers
 
         public IActionResult ListCart()
         {
+            if (TempData["shortMessage"] != null)
+            {
+                TempData["shortMessage"].ToString();
+            }
+            
             var cart = HttpContext.Session.GetString("cart");
             if (cart != null)
             {
@@ -273,6 +279,59 @@ namespace EcomerceProject.Controllers
                 }
             }
             return RedirectToAction("UserIndex", controllerName: "Product");
+        }
+
+        public IActionResult Checkout()
+        {
+            var model = HttpContext.Session.GetString("user");
+            if (model != null)
+            {
+                User user = JsonConvert.DeserializeObject<User>(model);
+                List<Cart> carts = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+                ViewBag.User = user;
+                ViewBag.carts = carts;
+                return View();
+            }
+            else
+            {
+                TempData["shortMessage"] = "Please Login...";
+                return RedirectToAction("ListCart");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Checkout(string name, string email, string address, string phone, int id)
+        {
+            Order order = new Order()
+            {
+                name = name,
+                email = email,
+                address = address,
+                phone = phone,
+                userid = id,
+                status = false
+            };
+            context.Order.Add(order);
+            context.SaveChanges();
+
+            var carts = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+            for (int i = 0; i < carts.Count; i++)
+            {
+                OrderDetail orderDetail = new OrderDetail
+                {
+                    orderid = order.id,
+                    quantity = carts[i].quantity,
+                    price = carts[i].quantity * carts[i].product.finalprice,
+                    productid = carts[i].product.id,
+                };
+                context.orderDetail.Add(orderDetail);
+                context.SaveChanges();
+            }
+            HttpContext.Session.Remove("cart");
+            var sCart = context.ShoppingCart.SingleOrDefault(s => s.userid == id);
+            context.ShoppingCart.Remove(sCart);
+            context.SaveChanges();
+            return RedirectToAction("UserIndex", "Product");
         }
     }
 }
