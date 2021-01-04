@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EcomerceProject.Helpers;
 
 namespace EcomerceProject.Controllers
 {
@@ -25,7 +26,7 @@ namespace EcomerceProject.Controllers
         [HttpPost]
         public IActionResult Login(User user)
         {
-            var u = context.User.Where(u => u.email.Equals(user.email) && u.password.Equals(user.password)).SingleOrDefault();
+            var u = context.User.Where(u => u.email.Equals(user.email) && u.password.Equals(Encryptor.MD5Hash(user.password))).SingleOrDefault();
             if (u != null)
             {
                 HttpContext.Session.SetString("user", JsonConvert.SerializeObject(u));
@@ -87,6 +88,39 @@ namespace EcomerceProject.Controllers
             HttpContext.Session.Remove("user");
             HttpContext.Session.Remove("cart");
             return RedirectToAction("Login");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(User user)
+        {
+            try
+            {
+                var model = context.User.FirstOrDefault(m => m.email.Equals(user.email));
+                if (model == null)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        user.password = Encryptor.MD5Hash(user.password);
+                        context.User.Add(user);
+                        context.SaveChanges();
+                        return RedirectToAction("Login", controllerName: "User");
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "Email is existing...";
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
         }
     }
 }
