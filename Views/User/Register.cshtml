@@ -1,0 +1,68 @@
+﻿@model EcomerceProject.Entities.User
+<div class="container">
+    <div>
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">Create Account</h4>
+            <p class="text-center">Get started with your free account</p>
+            <p>
+                <a style="background-color: #42AEEC; color: #fff" href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
+                <a style="background-color: #405D9D; color: #fff;" href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+            </p>
+            <form asp-action="Register" asp-controller="User" method="post">
+                <input asp-for="avatar" value="image/man-300x300.png" type="hidden" />
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input name="name" class="form-control" placeholder="Full name" type="text">
+                </div> <!-- form-group// -->
+                <span asp-validation-for="@Model.name" class="text-danger"></span>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input name="email" class="form-control" placeholder="Email address" type="email">
+                </div> <!-- form-group// -->
+                <span asp-validation-for="@Model.email" class="text-danger"></span>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                    <input name="phone" class="form-control" placeholder="Phone number" type="text">
+                </div> <!-- form-group// -->
+                <span asp-validation-for="@Model.phone" class="text-danger"></span>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-book"></i> </span>
+                    </div>
+                    <input name="address" class="form-control" placeholder="Address" type="text">
+                </div> <!-- form-group// -->
+                <span asp-validation-for="@Model.address" class="text-danger"></span>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input name="password" class="form-control" placeholder="Create password" type="password">
+                </div> <!-- form-group// -->
+                <span asp-validation-for="@Model.password" class="text-danger"></span>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input name="confirmpassword" class="form-control" placeholder="Confirm password" type="password">
+                </div> <!-- form-group// -->
+                <span asp-validation-for="@Model.confirmpassword" class="text-danger"></span>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+                </div> <!-- form-group// -->
+                <p style="color:red">@ViewBag.Msg</p>
+                <p class="text-center">Have an account? <a asp-controller="User" asp-action="Login">Log In</a> </p>
+            </form>
+        </article>
+    </div> <!-- card.// -->
+</div>
+<!--container end.//-->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -10,6 +10,7 @@ namespace EcomerceProject.Entities
     [Table("User")]
     public class User
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
@@ -30,6 +31,11 @@ namespace EcomerceProject.Entities
 
         [Required(ErrorMessage = "Field must be not blank")]
         public string password { get; set; }
+
+        [NotMapped] 
+        [Compare("password")]
+        public string confirmpassword { get; set; }
+
         [DataType(DataType.ImageUrl)]
         public string avatar { get; set; }
 
